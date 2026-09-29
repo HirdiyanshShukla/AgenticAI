@@ -629,3 +629,106 @@ GenerateContentResponse
 > `finish_reason` → **why generation stopped**
 
 > `automatic_function_calling_history` → **what automatic tool/function calls occurred**
+
+
+==========================================================================================================
+==========================================================================================================
+
+UNDERSTANDING CONFIG PARAM:
+
+"Google documents these as part of Gemini's generation configuration."
+generate_content(
+    model = "which model?",
+    contents = "what do I want?",
+    config = {
+        "how should it behave/generate?"
+    }
+)
+
+Important things you can put in config
+Config option	    What it does
+system_instruction	Gives persistent behavioral instructions [like a prompt telling how to perform tasks]
+temperature	        Controls generation randomness
+max_output_tokens	Limits maximum output length (can include thought tokens)
+top_p	            Controls token-selection diversity
+top_k	            Controls token-selection pool
+stop_sequences	    Tells generation when to stop
+response_schema	    Defines the structure expected in structured output
+tools	            Gives the model capabilities such as search/function calling/code execution
+response_mime_type	Can request formats such as JSON [but you also give instructions in the content param of what format do you want of the data else gemini generates a random pattern of json or we use **response schema**]
+
+
+
+**temperature**-
+
+Possibilities
+blue       80%
+clear      10%
+beautiful   5%
+dark        3%
+green       1%
+...
+
+At a low temperature, the model tends to strongly favor the high-probability choices.So,..
+"The sky is blue."
+"The sky is blue."
+"The sky is blue."
+
+At a higher temperature, lower-probability choices have a better chance of being selected.
+"The sky is blue."
+"The sky is clear."
+"The sky is beautiful."
+"The sky is dark."
+
+->"random" doesn't mean the model suddenly generates nonsense. It means the probability distribution is made flatter, so alternative token choices become more likely.
+
+==========================================================================================================
+==========================================================================================================
+
+*generate_content() : print(response.text) [generates the response then sends it]
+
+*generate_content_stream() : for chunk in response:              [sends response as generated to give a                              print(chunk.text, end="")                          type-out effect]
+                                
+
+
+*response schema:
+
+response = client.models.generate_content(
+    model="gemini-3-flash-preview",
+
+    config=types.GenerateContentConfig(
+        response_mime_type="application/json",
+
+
+        response_schema={
+            "type": "object",
+            "properties": {
+                "sub_questions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": ["sub_questions"]
+        }
+    ),
+
+
+    contents="""
+    Break this question into 3 useful sub-questions:
+
+    How can Agentic AI be used for software development?
+    """
+)
+
+
+    OUTPUT:
+
+    {
+  'sub_questions': [
+    'What specific phases of the software development lifecycle can be fully or partially automated using autonomous agents?',
+    'How do multi-agent architectures facilitate collaborative coding and complex system design compared to traditional LLM-based assistants?',
+    'What are the primary security and reliability considerations when allowing Agentic AI to autonomously modify and deploy production code?'
+  ]
+}
