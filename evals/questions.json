@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "type": "factual",
+    "question": "What is Retrieval-Augmented Generation (RAG)?",
+    "expected": [
+      "definition of RAG",
+      "retrieval of external information",
+      "using retrieved information as context for an LLM"
+    ]
+  },
+  {
+    "id": 2,
+    "type": "reasoning",
+    "question": "Why can RAG reduce hallucinations in an LLM application?",
+    "expected": [
+      "retrieved information provides additional context",
+      "answers can be grounded in retrieved information",
+      "RAG does not eliminate hallucinations"
+    ]
+ }
+]

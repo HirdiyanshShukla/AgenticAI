@@ -3,6 +3,8 @@
 
 
 
+########## WEEK 1 #####################
+
 # Understanding a Gemini API Response
 
 Below is a simplified and formatted version of the response returned by the Gemini API.
@@ -732,3 +734,79 @@ response = client.models.generate_content(
     'What are the primary security and reliability considerations when allowing Agentic AI to autonomously modify and deploy production code?'
   ]
 }
+
+===========================================================================================================
+===========================================================================================================
+===========================================================================================================
+===========================================================================================================
+
+
+
+
+################ WEEK 2 #####################
+
+-> token tracking with the metadata from the response
+
+-> error retry with "exponential backoff":
+
+def send_with_retry(message, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            return chat.send_message(message)
+
+        except Exception as e:
+            print(f"Request failed: {e}")
+
+            if attempt == max_retries - 1:
+                raise
+
+            wait_time = 2 ** attempt
+
+            print(f"Retrying in {wait_time} seconds...")
+            time.sleep(wait_time)
+
+The code above catches every exception. That's okay for learning the concept, but in a production application you shouldn't retry every error.
+
+example-:
+Rate limit / temporary server error
+        → retry ✅
+
+Invalid API key
+        → don't retry ❌
+
+Invalid request
+        → don't retry ❌
+
+
+-> decompose-answer-synthesize: here we made a fixed pipeline to decompose the question into sub quetion, then answer each question and finally synthesize a report from the answers
+
+                         User
+                          │
+                          ▼
+                 Research Question
+                          │
+                          ▼
+                  ┌──────────────┐
+                  │  DECOMPOSE   │
+                  └──────┬───────┘
+                         │
+                  3–5 sub-questions
+                         │
+          ┌──────────────┼──────────────┐
+          ▼              ▼              ▼
+       Answer          Answer         Answer
+          │              │              │
+          └──────────────┼──────────────┘
+                         │
+                         ▼
+                  ┌──────────────┐
+                  │  SYNTHESIZE  │
+                  └──────┬───────┘
+                         │
+                         ▼
+                  Research Report
+                  ├── Summary
+                  ├── Findings
+                  └── Confidence & Gaps
+
+

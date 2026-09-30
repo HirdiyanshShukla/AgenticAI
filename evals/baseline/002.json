@@ -1,0 +1,29 @@
+{
+  "id": 2,
+  "type": "reasoning",
+  "question": "Why can RAG reduce hallucinations in an LLM application?",
+  "expected": [
+    "retrieved information provides additional context",
+    "answers can be grounded in retrieved information",
+    "RAG does not eliminate hallucinations"
+  ],
+  "report": {
+    "summary": "Retrieval-Augmented Generation (RAG) reduces hallucinations by shifting a Large Language Model (LLM) from a closed-book state, relying on static parametric memory, to an open-book state utilizing non-parametric external data. This transition changes the model's primary objective from probability-based guessing to a reading comprehension and extraction task, effectively anchoring outputs in verified, dynamic context rather than internal weights that may be outdated or incomplete.",
+    "key_findings": [
+      "RAG fundamentally alters the information processing flow by using the attention mechanism to prioritize retrieved tokens over internal associations learned during training.",
+      "Prompt instructions serve as a governance layer that implements grounding and negative constraints, such as 'I don't know' fallbacks, which prevent the model from filling knowledge gaps with fabricated data.",
+      "The inclusion of verifiable citations creates an audit trail and acts as a structural constraint, pushing the model to attend more closely to the retrieved text.",
+      "High semantic relevance between the query and the context is a primary determinant of faithfulness, as it reduces the search space and decreases the likelihood of a model falling back on internal memory.",
+      "RAG bypasses knowledge cutoffs by providing real-time access to specialized or current information, transforming generation into a synthesis task based on provided evidence.",
+      "Conflict resolution protocols in prompts allow models to prioritize retrieved evidence even when it contradicts the model's pre-trained internal facts."
+    ],
+    "confidence": "High",
+    "gaps": [
+      "The exact mechanistic interpretability of how neurons toggle between parametric and non-parametric sources is still under research.",
+      "There is no universal quantitative threshold for semantic relevance that guarantees faithfulness across different model architectures.",
+      "Instruction following can degrade in long contexts, a phenomenon known as 'Lost in the Middle' or 'Instruction Drift.'",
+      "Models may still produce 'grounded hallucinations' if they misinterpret relationships between facts or if the retrieved source material itself contains errors.",
+      "The ability to distinguish between unfaithfulness due to poor retrieval versus logical reasoning errors during synthesis remains limited."
+    ]
+  }
+}

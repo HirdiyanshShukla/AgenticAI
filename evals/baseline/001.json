@@ -1,0 +1,27 @@
+{
+  "id": 1,
+  "type": "factual",
+  "question": "What is Retrieval-Augmented Generation (RAG)?",
+  "expected": [
+    "definition of RAG",
+    "retrieval of external information",
+    "using retrieved information as context for an LLM"
+  ],
+  "report": {
+    "summary": "Retrieval-Augmented Generation (RAG) is an architectural framework designed to optimize Large Language Model (LLM) outputs by incorporating authoritative knowledge from external sources outside the model's initial training data. By separating the retrieval of information from the generation of text, RAG provides a non-parametric memory system that allows for real-time data updates, reduced hallucinations through factual grounding, and the ability to provide source citations. The system functions through an ingestion pipeline that chunks and indexes data into vector databases and an inference workflow that retrieves relevant context to augment user queries before generation.",
+    "key_findings": [
+      "RAG architecture is divided into an offline ingestion pipeline (document loading, chunking, and vector embedding) and an online inference workflow (query encoding, similarity search, and augmented generation).",
+      "The system utilizes non-parametric memory (external databases) to supplement the LLM's frozen parametric memory, enabling the use of private or real-time data without retraining.",
+      "Standard retrieval techniques include the use of bi-encoders for embeddings and Approximate Nearest Neighbors (ANN) algorithms like HNSW for efficient similarity searching.",
+      "RAG provides significant benefits over fine-tuning for factual accuracy and verifiability, while fine-tuning remains superior for mastering specific styles or formats.",
+      "Evaluation is increasingly standardized around the RAG Triad: Context Relevance (retriever quality), Faithfulness (detecting hallucinations), and Answer Relevance (addressing the query)."
+    ],
+    "confidence": "High regarding core architectural components and comparative benefits, moderate regarding universal optimization and evaluation standards.",
+    "gaps": [
+      "There is no established universal standard for evaluating RAG systems beyond emerging frameworks like RAGAS.",
+      "Optimal chunk sizes and embedding models remain highly data-dependent with no standardized formula for determination.",
+      "The effectiveness and standard workflows for Agentic RAG, where models decide when to search, are still under active research.",
+      "While RAG reduces hallucinations, it does not currently guarantee their complete elimination."
+    ]
+  }
+}
